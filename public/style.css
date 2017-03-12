@@ -1,24 +1,36 @@
-body { background-color: #F2F6D0 }
+body {
+  background-color: #fcf7ea;
+  /*background-image: url("dilbert.gif");*/
+  font-family: "Cormorant SC";
+
+}
+/*
 #wrapper {
   width: 960px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 5%;
+}*/
+
+.jumbotron{
+  background-color: #fcf7ea;
+  /*background-image: url("dilbert.gif")*/
 }
+
 #articles {
   display: inline-block;
   overflow: auto;
-  width: 60%;
+  width: 80%;
   height: 700px;
 }
 #notes {
   float: right;
-  width: 30%;
+  width: 15%;
 }
 textarea, input {
   display: block;
   width: 100%;
-  background-color: #FCF5C7;
+  background-color: #fff;
 }
 input {
   height: 36px;
@@ -27,4 +39,12 @@ input {
 textarea {
   height: 200px;
   font-size: 18px;
+}
+
+footer {
+    width: 100%;
+    /*position: fixed;*/
+    bottom: 0px;
+    text-align: center;
+
 }

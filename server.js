@@ -35,7 +35,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_vmwl3z7x:qndoq34qlq2pv13remftms6164@ds147069.mlab.com:47069/heroku_vmwl3z7x");
+//mongoose.connect("mongodb://heroku_vmwl3z7x:qndoq34qlq2pv13remftms6164@ds147069.mlab.com:47069/heroku_vmwl3z7x");
+mongoose.connect("mongodb://localhost/scraperDB");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -56,9 +57,10 @@ app.get("/scrape", function(req, res) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
       $("div.middle-rail h2").each(function(i, element) {
-          var result = {};
-          result.title = $(this).find("a.card__link").text();
-          result.link = $(this).find("a.card__link").attr("href");
+        var result = {};
+        result.title = $(this).find("a.card__link").text();
+        result.link = $(this).find("a.card__link").attr("href");
+        result.photo = $(this).find("a.card__link").attr("src");
 
       // Using our Article model, create a new entry
       // This effectively passes the result object to the entry (and the title and link)
