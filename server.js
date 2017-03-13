@@ -35,8 +35,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 // Database configuration with mongoose
+// mongoose.connect("mongodb://localhost/scraperDB");
 mongoose.connect("mongodb://heroku_vmwl3z7x:qndoq34qlq2pv13remftms6164@ds147069.mlab.com:47069/heroku_vmwl3z7x");
-//mongoose.connect("mongodb://localhost/scraperDB");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -50,8 +50,12 @@ db.once("open", function() {
 });
 
 
+
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
+
+  //db.articles.drop();
+
   // First, we grab the body of the html with request
   request("http://www.huffingtonpost.com/section/comedy", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -81,9 +85,10 @@ app.get("/scrape", function(req, res) {
     });
   });
   // Tell the browser that we finished scraping the text
-  res.send("Scrape Complete");
-});
+  console.log("Scrape Complete");
+  res.redirect("/");
 
+});
 
 
 // This will get the articles we scraped from the mongoDB
@@ -115,6 +120,19 @@ app.get("/articles/:id", function(req, res) {
     }
     // Otherwise, send the doc to the browser as a json object
     else {
+      res.json(doc);
+    }
+  });
+});
+
+app.get("/notes/:id", function(req, res){
+  Note.findOne({"_id:": req.params.id})
+  .populate("note")
+  .exec(function(error, doc){
+    if(error){
+      console.log(error);
+    }
+    else{
       res.json(doc);
     }
   });
@@ -154,5 +172,5 @@ app.post("/articles/:id", function(req, res) {
 var PORT = process.env.PORT || 3000;
 // Listen on port 3000
 app.listen(PORT, function() {
-  console.log("App running on port" + PORT);
+  console.log("App running on port " + PORT);
 });
